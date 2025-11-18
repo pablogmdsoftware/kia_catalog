@@ -32,6 +32,10 @@ def extract_tbody(driver,class_name="kTRrWaSE-Eo-"):
     tbody = wait.until(EC.presence_of_element_located((By.CLASS_NAME,class_name)))
     return tbody
 
+def extract_rows(tbody,class_name="_2agdmOXNL04-"):
+    rows = tbody.find_elements(By.CLASS_NAME,class_name)
+    return rows
+
 with GetDriver() as driver:
     driver.get("https://www.parts-catalogs.com/eu/demo#/models?catalogId=kia&modelId=bb19fa7c8a2f8ed18ee608f7a14f945d")
     wait = WebDriverWait(driver, 10)
@@ -44,12 +48,10 @@ with GetDriver() as driver:
 
     time.sleep(2)
 
-    rows = tbody.find_elements(By.CLASS_NAME, "_2agdmOXNL04-")
+    rows = extract_rows(tbody)
+    row = rows[0]
 
     time.sleep(2)
-
-    rows = tbody.find_elements(By.CLASS_NAME, "_2agdmOXNL04-")
-    row = rows[0]
 
     print(row)
     print(row.text)
