@@ -36,11 +36,36 @@ def extract_rows(tbody,class_name="_2agdmOXNL04-"):
     rows = tbody.find_elements(By.CLASS_NAME,class_name)
     return rows
 
+def extract_information(
+    row,
+    info_button_class = "OU86QPYRbD0-",
+    modal = "ELkpm5Bw0qE-",
+    modal_text = "k0mox4rl57k-",
+    close_button_class = "CMTDFscG6Hw-",
+):
+    info_button = row.find_element(By.CLASS_NAME,info_button_class)
+    info_button.click()
+
+    modal = wait.until(EC.visibility_of_element_located((By.CLASS_NAME,modal)))
+
+    modal_text = modal.find_element(By.CLASS_NAME,modal_text).text
+
+    time.sleep(1)
+
+    close_button = modal.find_element(By.CLASS_NAME,close_button_class)
+    close_button.click()
+
+    time.sleep(1)
+
+    return {"row": 0, "row_text": row.text, "info": modal_text}
+
 with GetDriver() as driver:
     driver.get("https://www.parts-catalogs.com/eu/demo#/models?catalogId=kia&modelId=bb19fa7c8a2f8ed18ee608f7a14f945d")
     wait = WebDriverWait(driver, 10)
 
-    data = []
+    time.sleep(2)
+
+    # click_load_buttons(driver)
 
     time.sleep(2)
 
@@ -49,31 +74,17 @@ with GetDriver() as driver:
     time.sleep(2)
 
     rows = extract_rows(tbody)
+
+    print(len(rows))
+
     row = rows[0]
 
-    time.sleep(2)
-
-    print(row)
-    print(row.text)
+    # print(row)
+    # print(row.text)
 
     time.sleep(2)
 
-    info_button = row.find_element(By.CLASS_NAME, "OU86QPYRbD0-")
-    info_button.click()
-
-    modal = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "ELkpm5Bw0qE-")))
-
-    modal_text = modal.find_element(By.CLASS_NAME, "k0mox4rl57k-").text
-    data.append({"row": 0, "info": modal_text})
-
-    time.sleep(1)
-
-    close_button = modal.find_element(By.CLASS_NAME, "CMTDFscG6Hw-")
-    close_button.click()
-
-    time.sleep(1)
-
-    # data = []
+    print(extract_information(row))
 
     # # 3. Loop through rows
     # for i in range(len(rows)):
@@ -102,7 +113,5 @@ with GetDriver() as driver:
 
     #     except Exception as e:
     #         print(f"Error on row {i}: {e}")
-
-print(data[0])
 
 
