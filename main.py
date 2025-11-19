@@ -62,19 +62,22 @@ def extract_information(
 
     time.sleep(1)
 
-    info_button = row.find_element(By.CLASS_NAME,info_button_class)
-    info_button.click()
+    try:
+        info_button = row.find_element(By.CLASS_NAME,info_button_class)
+        info_button.click()
 
-    modal = wait.until(EC.visibility_of_element_located((By.CLASS_NAME,modal)))
+        modal = wait.until(EC.visibility_of_element_located((By.CLASS_NAME,modal)))
 
-    modal_text = modal.find_element(By.CLASS_NAME,modal_text).text
+        modal_text = modal.find_element(By.CLASS_NAME,modal_text).text
 
-    time.sleep(1)
+        time.sleep(1)
 
-    close_button = modal.find_element(By.CLASS_NAME,close_button_class)
-    close_button.click()
+        close_button = modal.find_element(By.CLASS_NAME,close_button_class)
+        close_button.click()
 
-    time.sleep(1)
+        time.sleep(1)
+    except:
+        modal_text = ""
 
     return {"row": 0, "row_text": values, "info": modal_text}
 
@@ -90,7 +93,7 @@ def split_information_text(text):
     return text_dict
 
 with GetDriver() as driver:
-    driver.get("https://www.parts-catalogs.com/eu/demo#/models?catalogId=kia&modelId=39e5d73321b21fceafd48d9e04dc8b66&transmission=01265cbeececa6d105180f9f3ad13cc1")
+    driver.get("https://www.parts-catalogs.com/eu/demo#/models?catalogId=kia&modelId=64f4bc527160f349686ec43bd21f1998")
     wait = WebDriverWait(driver, 10)
 
     time.sleep(1)
