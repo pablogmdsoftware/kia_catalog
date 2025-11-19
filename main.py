@@ -36,6 +36,15 @@ def extract_rows(tbody,class_name="_2agdmOXNL04-"):
     rows = tbody.find_elements(By.CLASS_NAME,class_name)
     return rows
 
+def extract_headers(driver,class_name="a05Das4P-N8-"):
+    wait = WebDriverWait(driver, 10)
+    row = wait.until(EC.presence_of_element_located((By.CLASS_NAME,class_name)))
+    th_list = row.find_elements(By.TAG_NAME, "th")
+    headers = []
+    for th in th_list:
+        headers.append(th.text)
+    return headers
+
 def extract_information(
     row,
     info_button_class = "OU86QPYRbD0-",
@@ -81,35 +90,37 @@ def split_information_text(text):
     return text_dict
 
 with GetDriver() as driver:
-    driver.get("https://www.parts-catalogs.com/eu/demo#/models?catalogId=kia&modelId=bb19fa7c8a2f8ed18ee608f7a14f945d")
+    driver.get("https://www.parts-catalogs.com/eu/demo#/models?catalogId=kia&modelId=39e5d73321b21fceafd48d9e04dc8b66&transmission=01265cbeececa6d105180f9f3ad13cc1")
     wait = WebDriverWait(driver, 10)
 
-    time.sleep(2)
+    time.sleep(1)
 
     # click_load_buttons(driver)
 
-    time.sleep(2)
+    # time.sleep(1)
 
     tbody = extract_tbody(driver)
 
-    time.sleep(2)
+    time.sleep(1)
 
     rows = extract_rows(tbody)
 
     print(len(rows))
 
-    row = rows[5]
+    row = rows[0]
 
     # print(row)
     # print(row.text)
 
-    time.sleep(2)
+    time.sleep(1)
 
     information = extract_information(row)
 
     print(split_information_text(information.get("info")))
 
     print(information)
+
+    print(extract_headers(driver))
 
     # # 3. Loop through rows
     # for i in range(len(rows)):
