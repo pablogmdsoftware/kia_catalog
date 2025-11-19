@@ -59,6 +59,17 @@ def extract_information(
 
     return {"row": 0, "row_text": row.text, "info": modal_text}
 
+def split_information_text(text):
+    text.split("\n;")
+    text_dict = {}
+    for column in text.split(";\n"):
+        if column.find(":") > 0:
+            column_tuple = column.split(": ")
+            text_dict[column_tuple[0]] = column_tuple[1]
+        else:
+            text_dict["#"] = column
+    return text_dict
+
 with GetDriver() as driver:
     driver.get("https://www.parts-catalogs.com/eu/demo#/models?catalogId=kia&modelId=bb19fa7c8a2f8ed18ee608f7a14f945d")
     wait = WebDriverWait(driver, 10)
@@ -84,7 +95,9 @@ with GetDriver() as driver:
 
     time.sleep(2)
 
-    print(extract_information(row))
+    information = extract_information(row)
+
+    print(split_information_text(information.get("info")))
 
     # # 3. Loop through rows
     # for i in range(len(rows)):
