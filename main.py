@@ -46,6 +46,7 @@ def extract_headers(driver,class_name="a05Das4P-N8-"):
     return headers
 
 def extract_information(
+    driver,
     row,
     info_button_class = "OU86QPYRbD0-",
     modal = "ELkpm5Bw0qE-",
@@ -79,7 +80,17 @@ def extract_information(
     except:
         modal_text = ""
 
-    return {"row": 0, "row_text": values, "info": modal_text}
+    time.sleep(2)
+
+    td_list[0].click()
+    
+    time.sleep(2)
+
+    driver.back()
+
+    time.sleep(2)
+
+    return {"row": 0, "row_text": values, "info": modal_text, "link": driver.current_url}
 
 def split_information_text(text):
     text.split("\n;")
@@ -117,7 +128,7 @@ with GetDriver() as driver:
 
     time.sleep(1)
 
-    information = extract_information(row)
+    information = extract_information(driver,row)
 
     print(split_information_text(information.get("info")))
 
