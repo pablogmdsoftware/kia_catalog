@@ -43,6 +43,16 @@ def extract_information(
     modal_text = "k0mox4rl57k-",
     close_button_class = "CMTDFscG6Hw-",
 ):
+
+    td_list = row.find_elements(By.TAG_NAME, "td")
+
+    values = []
+
+    for td in td_list:
+        values.append(td.text)
+
+    time.sleep(1)
+
     info_button = row.find_element(By.CLASS_NAME,info_button_class)
     info_button.click()
 
@@ -57,7 +67,7 @@ def extract_information(
 
     time.sleep(1)
 
-    return {"row": 0, "row_text": row.text, "info": modal_text}
+    return {"row": 0, "row_text": values, "info": modal_text}
 
 def split_information_text(text):
     text.split("\n;")
@@ -88,7 +98,7 @@ with GetDriver() as driver:
 
     print(len(rows))
 
-    row = rows[0]
+    row = rows[5]
 
     # print(row)
     # print(row.text)
@@ -98,6 +108,8 @@ with GetDriver() as driver:
     information = extract_information(row)
 
     print(split_information_text(information.get("info")))
+
+    print(information)
 
     # # 3. Loop through rows
     # for i in range(len(rows)):
